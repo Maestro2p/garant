@@ -578,22 +578,32 @@ async def cmd_start(message: types.Message, state: FSMContext):
             await show_deal(message, deal_id)
             return
 
+    welcome_photo = None
+    try:
         welcome_photo = FSInputFile(os.path.join(BASE_DIR, "attached_assets", "photo_2026-05-14_15-10-18.jpg"))
-    await message.answer_photo(
-        photo=welcome_photo,
-        caption=f"<blockquote>👋 <b>Добро пожаловать в {BOT_NAME}</b></blockquote>\n\n"
-                "<blockquote>🛡 Безопасные ордера с передачей товара через менеджера.</blockquote>\n\n"
-                f"<blockquote>📋 Комиссия сервиса: 1%</blockquote>\n\n"
-                f"<blockquote>🆘 Поддержка: {SUPPORT_USERNAME}</blockquote>",
-        parse_mode="HTML",
-        reply_markup=main_menu_kb(message.from_user.id)
+    except Exception:
+        pass
+
+    caption_text = (
+        f"<blockquote>🥇 <b>????? ?????????? ? {BOT_NAME}</b></blockquote>\n\n"
+        "<blockquote>✅ ????? ??????????? ?????????? ?????? ????? ?????????? ? ????????????.</blockquote>\n\n"
+        f"<blockquote>💰 ???????? ???????: 1%</blockquote>\n\n"
+        f"<blockquote>🆘 ?? ????????: {SUPPORT_USERNAME}</blockquote>"
     )
 
-
-# ==========================================
-# ПОМОЩЬ
-# ==========================================
-
+    if welcome_photo:
+        await message.answer_photo(
+            photo=welcome_photo,
+            caption=caption_text,
+            parse_mode="HTML",
+            reply_markup=main_menu_kb(message.from_user.id)
+        )
+    else:
+        await message.answer(
+            caption_text,
+            parse_mode="HTML",
+            reply_markup=main_menu_kb(message.from_user.id)
+        )
 @dp.callback_query(F.data == "help")
 async def cb_help(callback: types.CallbackQuery):
     kb = InlineKeyboardMarkup(inline_keyboard=[
@@ -650,33 +660,34 @@ async def cmd_help(message: types.Message):
 @dp.callback_query(F.data == "main_menu")
 async def cb_main_menu(callback: types.CallbackQuery, state: FSMContext):
     await state.clear()
+
+    welcome_photo = None
     try:
         welcome_photo = FSInputFile(os.path.join(BASE_DIR, "attached_assets", "photo_2026-05-14_15-10-18.jpg"))
+    except Exception:
+        pass
+
+    caption_text = (
+        f"<blockquote>🥇 <b>????? ?????????? ? {BOT_NAME}</b></blockquote>\n\n"
+        "<blockquote>✅ ????? ??????????? ?????????? ?????? ????? ?????????? ? ????????????.</blockquote>\n\n"
+        f"<blockquote>💰 ???????? ???????: 1%</blockquote>\n\n"
+        f"<blockquote>🆘 ?? ????????: {SUPPORT_USERNAME}</blockquote>"
+    )
+
+    if welcome_photo:
         await callback.message.answer_photo(
             photo=welcome_photo,
-            caption=f"<blockquote>🥇 <b>Добро пожаловать в {BOT_NAME}</b></blockquote>\n\n"
-                    "<blockquote>✅ Здесь заключаются безопасные сделки между продавцами и покупателями.</blockquote>\n\n"
-                    f"<blockquote>💰 Комиссия сервиса: 1%</blockquote>\n\n"
-                    f"<blockquote>🆘 По вопросам: {SUPPORT_USERNAME}</blockquote>",
+            caption=caption_text,
             parse_mode="HTML",
             reply_markup=main_menu_kb(callback.from_user.id)
         )
-    except Exception:
+    else:
         await callback.message.answer(
-            f"<blockquote>🥇 <b>Добро пожаловать в {BOT_NAME}</b></blockquote>\n\n"
-            "<blockquote>✅ Здесь заключаются безопасные сделки между продавцами и покупателями.</blockquote>\n\n"
-            f"<blockquote>💰 Комиссия сервиса: 1%</blockquote>\n\n"
-            f"<blockquote>🆘 По вопросам: {SUPPORT_USERNAME}</blockquote>",
+            caption_text,
             parse_mode="HTML",
             reply_markup=main_menu_kb(callback.from_user.id)
         )
     await callback.answer()
-
-
-# ==========================================
-# НОВЫЕ РАЗДЕЛЫ МЕНЮ
-# ==========================================
-
 @dp.callback_query(F.data == "wallets")
 async def cb_wallets(callback: types.CallbackQuery, state: FSMContext):
     await state.clear()
