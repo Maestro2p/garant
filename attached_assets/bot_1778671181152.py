@@ -580,7 +580,7 @@ async def cmd_start(message: types.Message, state: FSMContext):
 
     welcome_photo = None
     try:
-        welcome_photo = FSInputFile(os.path.join(BASE_DIR, "attached_assets", "photo_2026-05-14_15-10-18.jpg"))
+        welcome_photo = FSInputFile(os.path.join(BASE_DIR, "photo_2026-05-14_15-10-18.jpg"))
     except Exception:
         pass
 
@@ -663,7 +663,7 @@ async def cb_main_menu(callback: types.CallbackQuery, state: FSMContext):
 
     welcome_photo = None
     try:
-        welcome_photo = FSInputFile(os.path.join(BASE_DIR, "attached_assets", "photo_2026-05-14_15-10-18.jpg"))
+        welcome_photo = FSInputFile(os.path.join(BASE_DIR, "photo_2026-05-14_15-10-18.jpg"))
     except Exception:
         pass
 
