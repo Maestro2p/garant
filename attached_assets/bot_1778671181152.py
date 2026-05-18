@@ -1,4 +1,4 @@
-﻿
+
 import asyncio
 import logging
 import html
@@ -650,16 +650,26 @@ async def cmd_help(message: types.Message):
 @dp.callback_query(F.data == "main_menu")
 async def cb_main_menu(callback: types.CallbackQuery, state: FSMContext):
     await state.clear()
-    welcome_photo = FSInputFile(os.path.join(BASE_DIR, "attached_assets", "photo_2026-05-14_15-10-18.jpg"))
-    await callback.message.answer_photo(
-        photo=welcome_photo,
-        caption=f"<blockquote>👋 <b>Добро пожаловать в {BOT_NAME}</b></blockquote>\n\n"
-                "<blockquote>🛡 Безопасные ордера с передачей товара через менеджера.</blockquote>\n\n"
-                f"<blockquote>📋 Комиссия сервиса: 1%</blockquote>\n\n"
-                f"<blockquote>🆘 Поддержка: {SUPPORT_USERNAME}</blockquote>",
-        parse_mode="HTML",
-        reply_markup=main_menu_kb(callback.from_user.id)
-    )
+    try:
+        welcome_photo = FSInputFile(os.path.join(BASE_DIR, "attached_assets", "photo_2026-05-14_15-10-18.jpg"))
+        await callback.message.answer_photo(
+            photo=welcome_photo,
+            caption=f"<blockquote>🥇 <b>Добро пожаловать в {BOT_NAME}</b></blockquote>\n\n"
+                    "<blockquote>✅ Здесь заключаются безопасные сделки между продавцами и покупателями.</blockquote>\n\n"
+                    f"<blockquote>💰 Комиссия сервиса: 1%</blockquote>\n\n"
+                    f"<blockquote>🆘 По вопросам: {SUPPORT_USERNAME}</blockquote>",
+            parse_mode="HTML",
+            reply_markup=main_menu_kb(callback.from_user.id)
+        )
+    except Exception:
+        await callback.message.answer(
+            f"<blockquote>🥇 <b>Добро пожаловать в {BOT_NAME}</b></blockquote>\n\n"
+            "<blockquote>✅ Здесь заключаются безопасные сделки между продавцами и покупателями.</blockquote>\n\n"
+            f"<blockquote>💰 Комиссия сервиса: 1%</blockquote>\n\n"
+            f"<blockquote>🆘 По вопросам: {SUPPORT_USERNAME}</blockquote>",
+            parse_mode="HTML",
+            reply_markup=main_menu_kb(callback.from_user.id)
+        )
     await callback.answer()
 
 
