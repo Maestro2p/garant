@@ -1,0 +1,8 @@
+aiogram==3.28.2
+aiohttp==3.13.5
+aiofiles==25.1.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+certifi==2026.4.22
+magic-filter==1.0.12
+typing-extensions>=4.0
