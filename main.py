@@ -59,4 +59,8 @@ sys.path.insert(0, str(BASE_DIR / "attached_assets"))
 
 if __name__ == "__main__":
     print(f"Starting bot from: {bot_path}")
-    exec(open(bot_path, encoding="utf-8").read())
+    # Read file with BOM-safe encoding, then exec
+    with open(bot_path, encoding="utf-8-sig") as f:
+        bot_code = f.read()
+    exec_globals = {"__file__": str(bot_path), "__name__": "__main__"}
+    exec(bot_code, exec_globals)
